@@ -2,9 +2,8 @@ import Error from "next/error";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
-
-import { MOCK_POLLS } from "../../constants";
 import Link from "next/link";
+
 import { trpc } from "../../utils/trpc";
 
 const Poll: NextPage = () => {

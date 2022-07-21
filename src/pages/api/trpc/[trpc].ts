@@ -1,20 +1,32 @@
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { z } from "zod";
+import { PrismaClient } from "@prisma/client";
 
-import { MOCK_POLLS } from "../../../constants";
+const prisma = new PrismaClient();
 
 export const appRouter = trpc
   .router()
   .query("polls", {
-    resolve() {
-      return MOCK_POLLS;
+    async resolve() {
+      return await prisma.poll.findMany();
     },
   })
   .query("poll-by-id", {
     input: z.string(),
-    resolve({ input }) {
-      const poll = MOCK_POLLS.find((p) => p.id === input);
+    async resolve({ input }) {
+      const poll = await prisma.poll.findFirst({
+        where: { id: input },
+        include: {
+          options: {
+            select: {
+              id: true,
+              title: true,
+              votes: true,
+            },
+          },
+        },
+      });
       if (!poll) {
         throw new trpc.TRPCError({
           code: "NOT_FOUND",
@@ -27,14 +39,24 @@ export const appRouter = trpc
   .mutation("create-poll", {
     input: z.object({
       title: z.string(),
-      option: z.array(
+      options: z.array(
         z.object({
           title: z.string(),
         })
       ),
     }),
-    resolve() {
-      // todo: persist poll and options
+    async resolve({ input }) {
+      const poll = await prisma.poll.create({
+        data: {
+          title: input.title,
+          options: {
+            createMany: {
+              data: input.options,
+            },
+          },
+        },
+      });
+      return poll;
     },
   })
   .mutation("upvote-option", {

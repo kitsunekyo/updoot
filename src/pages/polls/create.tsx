@@ -1,11 +1,49 @@
+import { nanoid } from "nanoid";
 import type { NextPage } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
+import { useQueryClient } from "react-query";
+
+import { trpc } from "../../utils/trpc";
 
 const CreatePoll: NextPage = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const router = useRouter();
+  const utils = trpc.useContext();
+  const mutation = trpc.useMutation(["create-poll"], {
+    onSuccess() {
+      utils.invalidateQueries(["polls"]);
+    },
+  });
+  const [title, setTitle] = React.useState("");
+  const [options, setOptions] = React.useState<{ title: string }[]>([
+    { title: "" },
+  ]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e.currentTarget);
+    const createPollPayload = {
+      title,
+      options: options.filter((o) => o.title !== ""),
+    };
+    await mutation.mutateAsync(createPollPayload);
+    router.push("/polls");
+  };
+
+  const handleOptionChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const newOptions = [...options];
+    newOptions[index].title = e.currentTarget.value;
+    setOptions(newOptions);
+  };
+
+  const handleOptionFocus = (index: number) => {
+    console.log("focus");
+    if (options.length - 1 === index) {
+      setOptions((options) => [...options, { title: "" }]);
+    }
   };
 
   return (
@@ -24,6 +62,8 @@ const CreatePoll: NextPage = () => {
             name="title"
             id="title"
             className="border border-gray-300 rounded h-12 px-4"
+            value={title}
+            onChange={(e) => setTitle(e.currentTarget.value)}
           />
         </div>
         <div className="my-6">
@@ -31,22 +71,19 @@ const CreatePoll: NextPage = () => {
             Options
           </label>
           <ul className="list-disc">
-            <li className="ml-6 mb-2">
-              <input
-                type="text"
-                name="option1"
-                id="option1"
-                className="border border-gray-300 rounded h-12 px-4"
-              />
-            </li>
-            <li className="ml-6 mb-2">
-              <input
-                type="text"
-                name="option2"
-                id="option2"
-                className="border border-gray-300 rounded h-12 px-4"
-              />
-            </li>
+            {options.map((o, i) => (
+              <li key={i} className="ml-6 mb-2">
+                <input
+                  type="text"
+                  name={`option-${i}`}
+                  id={`option-${i}`}
+                  value={o.title}
+                  onFocus={() => handleOptionFocus(i)}
+                  onChange={(e) => handleOptionChange(e, i)}
+                  className="border border-gray-300 rounded h-12 px-4"
+                />
+              </li>
+            ))}
           </ul>
         </div>
         <div className="my-6">
