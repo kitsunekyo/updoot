@@ -40,7 +40,6 @@ const CreatePoll: NextPage = () => {
   };
 
   const handleOptionFocus = (index: number) => {
-    console.log("focus");
     if (options.length - 1 === index) {
       setOptions((options) => [...options, { title: "" }]);
     }
