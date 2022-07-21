@@ -6,18 +6,6 @@ import { MOCK_POLLS } from "../../../constants";
 
 export const appRouter = trpc
   .router()
-  .query("hello", {
-    input: z
-      .object({
-        text: z.string().nullish(),
-      })
-      .nullish(),
-    resolve({ input }) {
-      return {
-        greeting: `hello ${input?.text ?? "world"}`,
-      };
-    },
-  })
   .query("polls", {
     resolve() {
       return MOCK_POLLS;
