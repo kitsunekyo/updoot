@@ -10,7 +10,26 @@ const Poll: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   if (typeof id !== "string") return <Error statusCode={404} />;
+  const utils = trpc.useContext();
   const pollQuery = trpc.useQuery(["poll-by-id", id]);
+  const downvoteMutation = trpc.useMutation("downvote-option", {
+    onSuccess() {
+      utils.invalidateQueries(["poll-by-id", id]);
+    },
+  });
+  const upvoteMutation = trpc.useMutation("upvote-option", {
+    onSuccess() {
+      utils.invalidateQueries(["poll-by-id", id]);
+    },
+  });
+
+  const downvote = (optionId: string) => {
+    downvoteMutation.mutate(optionId);
+  };
+
+  const upvote = (optionId: string) => {
+    upvoteMutation.mutate(optionId);
+  };
 
   if (pollQuery.isError) {
     return <Error statusCode={404} />;
@@ -30,10 +49,16 @@ const Poll: NextPage = () => {
           <li key={o.id} className="mb-2 ml-6">
             {o.title} - {o.votes}{" "}
             <div className="flex gap-2">
-              <button className="px-3 rounded border border-gray-300 hover:bg-gray-100">
+              <button
+                onClick={() => upvote(o.id)}
+                className="px-3 rounded border border-gray-300 hover:bg-gray-100"
+              >
                 ↑
               </button>
-              <button className="px-3 rounded border border-gray-300 hover:bg-gray-100">
+              <button
+                onClick={() => downvote(o.id)}
+                className="px-3 rounded border border-gray-300 hover:bg-gray-100"
+              >
                 ↓
               </button>
             </div>

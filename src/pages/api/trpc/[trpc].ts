@@ -61,14 +61,20 @@ export const appRouter = trpc
   })
   .mutation("upvote-option", {
     input: z.string(),
-    resolve() {
-      // todo: increase vote counter on option
+    async resolve({ input }) {
+      await prisma.option.update({
+        where: { id: input },
+        data: { votes: { increment: 1 } },
+      });
     },
   })
   .mutation("downvote-option", {
     input: z.string(),
-    resolve() {
-      // todo: decrease vote counter on option
+    async resolve({ input }) {
+      await prisma.option.update({
+        where: { id: input },
+        data: { votes: { decrement: 1 } },
+      });
     },
   });
 

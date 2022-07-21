@@ -1,9 +1,7 @@
-import { nanoid } from "nanoid";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { useQueryClient } from "react-query";
 
 import { trpc } from "../../utils/trpc";
 
