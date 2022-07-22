@@ -43,7 +43,7 @@ const Poll: NextPage = () => {
         <a className="text-blue-600 underline">← See all polls</a>
       </Link>
       <h1 className="text-2xl font-bold my-6">{pollQuery.data.title}</h1>
-      <ul className="inline-flex flex-col gap-4">
+      <ul className="flex flex-col gap-4">
         {sortedOptions.map((o) => (
           <li key={o.id}>
             <div className="flex gap-4 items-center justify-between bg-white p-4 rounded border border-gray-300">
