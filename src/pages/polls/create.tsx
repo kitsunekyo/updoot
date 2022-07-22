@@ -79,9 +79,9 @@ const CreatePoll: NextPage = () => {
           <label htmlFor="options" className="block">
             Options
           </label>
-          <ul className="list-disc">
+          <ul>
             {options.map((o, i) => (
-              <li key={i} className="ml-6 mb-2">
+              <li key={i} className="mb-2">
                 <div className="flex gap-4 items-center">
                   <input
                     type="text"
