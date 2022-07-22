@@ -22,14 +22,6 @@ const Poll: NextPage = () => {
     },
   });
 
-  const downvote = (optionId: string) => {
-    downvoteMutation.mutate(optionId);
-  };
-
-  const upvote = (optionId: string) => {
-    upvoteMutation.mutate(optionId);
-  };
-
   if (pollQuery.isError) {
     return <Error statusCode={404} />;
   }
@@ -47,7 +39,6 @@ const Poll: NextPage = () => {
         <a className="text-blue-600 underline">← See all polls</a>
       </Link>
       <h1 className="text-2xl font-bold my-6">{pollQuery.data.title}</h1>
-      <h3 className="font-bold my-2">Options</h3>
       <ul className="inline-flex flex-col gap-4">
         {pollQuery.data.options.map((o) => (
           <li key={o.id}>
@@ -55,15 +46,17 @@ const Poll: NextPage = () => {
               <h3>{o.title}</h3>
               <div className="flex gap-2 items-center ml-4">
                 <button
-                  onClick={() => upvote(o.id)}
-                  className="h-8 w-8 flex items-center justify-center rounded hover:bg-gray-100"
+                  onClick={() => upvoteMutation.mutate(o.id)}
+                  disabled={upvoteMutation.isLoading}
+                  className="h-8 w-8 flex items-center justify-center rounded bg-green-50 hover:bg-green-100 disabled:bg-gray-50"
                 >
                   ↑
                 </button>
                 {o.votes}
                 <button
-                  onClick={() => downvote(o.id)}
-                  className="h-8 w-8 flex items-center justify-center rounded hover:bg-gray-100"
+                  onClick={() => downvoteMutation.mutate(o.id)}
+                  disabled={downvoteMutation.isLoading}
+                  className="h-8 w-8 flex items-center justify-center rounded bg-red-50 hover:bg-red-100 disabled:bg-gray-50"
                 >
                   ↓
                 </button>
