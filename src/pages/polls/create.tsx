@@ -17,9 +17,6 @@ const CreatePoll: NextPage = () => {
   const [options, setOptions] = React.useState<{ title: string }[]>([
     { title: "" },
   ]);
-  const [error, setError] = React.useState<{
-    options?: string;
-  }>({});
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,13 +25,9 @@ const CreatePoll: NextPage = () => {
       title,
       options: options.filter((o) => o.title !== ""),
     };
-    if (createPollPayload.options.length <= 0) {
-      setError({
-        options: "You need to supply at least one option",
-      });
-    }
 
-    if (error !== {}) {
+    if (createPollPayload.options.length <= 0) {
+      console.error("need at least 1 option");
       return;
     }
 
@@ -95,6 +88,7 @@ const CreatePoll: NextPage = () => {
                     name={`option-${i}`}
                     id={`option-${i}`}
                     value={o.title}
+                    required={i !== options.length - 1}
                     onFocus={() => handleOptionFocus(i)}
                     onChange={(e) => handleOptionChange(e, i)}
                     className="border border-gray-300 rounded h-12 px-4"
@@ -110,11 +104,6 @@ const CreatePoll: NextPage = () => {
               </li>
             ))}
           </ul>
-          {error.options ? (
-            <small className="mt-2 bg-red-50 p-2 border border-red-300 rounded text-red-600 text-sm inline-block">
-              {error.options}
-            </small>
-          ) : null}
         </div>
         <div className="my-6">
           <button
