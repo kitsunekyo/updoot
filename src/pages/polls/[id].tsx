@@ -33,6 +33,10 @@ const Poll: NextPage = () => {
       </div>
     );
 
+  const sortedOptions = [...pollQuery.data.options].sort((a, b) =>
+    a.votes > b.votes ? -1 : 1
+  );
+
   return (
     <div className="p-6">
       <Link href="/polls">
@@ -40,7 +44,7 @@ const Poll: NextPage = () => {
       </Link>
       <h1 className="text-2xl font-bold my-6">{pollQuery.data.title}</h1>
       <ul className="inline-flex flex-col gap-4">
-        {pollQuery.data.options.map((o) => (
+        {sortedOptions.map((o) => (
           <li key={o.id}>
             <div className="flex gap-4 items-center justify-between bg-white p-4 rounded border border-gray-300">
               <h3>{o.title}</h3>
