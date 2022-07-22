@@ -25,7 +25,7 @@ const Polls: NextPage = () => {
       <Link href="polls/create">
         <a className="text-blue-600 underline">Create Poll</a>
       </Link>
-      <h1 className="text-2xl font-bold">Polls</h1>
+      <h1 className="text-2xl font-bold my-6">Polls</h1>
       <ul className="inline-flex flex-col gap-4">
         {pollsQuery.data.map((poll) => (
           <li key={poll.id}>

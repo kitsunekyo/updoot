@@ -48,7 +48,7 @@ const CreatePoll: NextPage = () => {
       <Link href="/polls">
         <a className="text-blue-600 underline">← See all polls</a>
       </Link>
-      <h1 className="text-2xl font-bold">Create Poll</h1>
+      <h1 className="text-2xl font-bold my-6">Create Poll</h1>
       <form onSubmit={handleSubmit}>
         <div className="my-6">
           <label htmlFor="title" className="block">
