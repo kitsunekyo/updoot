@@ -59,6 +59,20 @@ export const appRouter = trpc
       return poll;
     },
   })
+  .mutation("delete-poll", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input }) {
+      const deleteOptions = prisma.option.deleteMany({
+        where: { pollId: input.id },
+      });
+      const deletePoll = prisma.poll.delete({
+        where: { id: input.id },
+      });
+      await prisma.$transaction([deleteOptions, deletePoll]);
+    },
+  })
   .mutation("upvote-option", {
     input: z.string(),
     async resolve({ input }) {

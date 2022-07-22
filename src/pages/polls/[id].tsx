@@ -35,7 +35,12 @@ const Poll: NextPage = () => {
     return <Error statusCode={404} />;
   }
 
-  if (!pollQuery.data) return <p>loading...</p>;
+  if (!pollQuery.data)
+    return (
+      <div className="p-6">
+        <p>loading...</p>
+      </div>
+    );
 
   return (
     <div className="p-6">

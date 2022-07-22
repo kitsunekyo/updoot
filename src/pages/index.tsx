@@ -10,9 +10,11 @@ const Home: NextPage = () => {
         <meta name="description" content="updoot vote app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Link href="/polls">
-        <a className="text-blue-600 underline">All polls</a>
-      </Link>
+      <div className="p-6">
+        <Link href="/polls">
+          <a className="text-blue-600 underline">All polls</a>
+        </Link>
+      </div>
     </div>
   );
 };

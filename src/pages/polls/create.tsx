@@ -8,7 +8,7 @@ import { trpc } from "../../utils/trpc";
 const CreatePoll: NextPage = () => {
   const router = useRouter();
   const utils = trpc.useContext();
-  const mutation = trpc.useMutation(["create-poll"], {
+  const createMutation = trpc.useMutation(["create-poll"], {
     onSuccess() {
       utils.invalidateQueries(["polls"]);
     },
@@ -24,7 +24,7 @@ const CreatePoll: NextPage = () => {
       title,
       options: options.filter((o) => o.title !== ""),
     };
-    await mutation.mutateAsync(createPollPayload);
+    await createMutation.mutateAsync(createPollPayload);
     router.push("/polls");
   };
 
@@ -84,7 +84,10 @@ const CreatePoll: NextPage = () => {
           </ul>
         </div>
         <div className="my-6">
-          <button className="bg-blue-600 text-white rounded px-6 h-12">
+          <button
+            className="bg-blue-600 text-white rounded px-6 h-12"
+            disabled={createMutation.isLoading}
+          >
             Create Poll
           </button>
         </div>
