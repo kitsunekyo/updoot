@@ -1,11 +1,16 @@
 import type { AppProps } from "next/app";
 import { AppRouter } from "./api/trpc/[trpc]";
 import { withTRPC } from "@trpc/next";
+import { SessionProvider } from "next-auth/react";
 
 import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  return (
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+    </SessionProvider>
+  );
 }
 
 export default withTRPC<AppRouter>({
@@ -29,5 +34,5 @@ export default withTRPC<AppRouter>({
   /**
    * @link https://trpc.io/docs/ssr
    */
-  ssr: false,
-})(MyApp);
+  ssr: true,
+})(App);

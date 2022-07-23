@@ -2,20 +2,23 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
+import Header from "@/components/Header";
+
 const Home: NextPage = () => {
   return (
-    <div>
+    <>
       <Head>
         <title>updoot</title>
         <meta name="description" content="updoot vote app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="p-6">
+      <Header />
+      <div className="p-6 text-center text-2xl font-medium">
         <Link href="/polls">
-          <a className="text-blue-600 underline">All polls</a>
+          <a className="text-orange-600 underline">All polls</a>
         </Link>
       </div>
-    </div>
+    </>
   );
 };
 

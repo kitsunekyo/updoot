@@ -1,12 +1,11 @@
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { z } from "zod";
-import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+import { createContext, createRouter } from "@/server/context";
+import { prisma } from "@/server/db/client";
 
-export const appRouter = trpc
-  .router()
+export const appRouter = createRouter()
   .query("polls", {
     async resolve() {
       return await prisma.poll.findMany();
@@ -98,5 +97,5 @@ export type AppRouter = typeof appRouter;
 // export API handler
 export default trpcNext.createNextApiHandler({
   router: appRouter,
-  createContext: () => null,
+  createContext,
 });

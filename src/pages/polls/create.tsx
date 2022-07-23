@@ -1,3 +1,4 @@
+import Header from "@/components/Header";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -55,66 +56,69 @@ const CreatePoll: NextPage = () => {
   };
 
   return (
-    <div className="p-6">
-      <Link href="/polls">
-        <a className="text-blue-600 underline">← See all polls</a>
-      </Link>
-      <h1 className="text-2xl font-bold my-6">Create Poll</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="my-6">
-          <label htmlFor="title" className="block">
-            Title
-          </label>
-          <input
-            type="text"
-            name="title"
-            id="title"
-            required
-            className="border border-gray-300 rounded h-12 px-4"
-            value={title}
-            onChange={(e) => setTitle(e.currentTarget.value)}
-          />
-        </div>
-        <div className="my-6">
-          <label htmlFor="options" className="block">
-            Options
-          </label>
-          <ul>
-            {options.map((o, i) => (
-              <li key={i} className="mb-2">
-                <div className="flex gap-4 items-center">
-                  <input
-                    type="text"
-                    name={`option-${i}`}
-                    id={`option-${i}`}
-                    value={o.title}
-                    required={i !== options.length - 1}
-                    onFocus={() => handleOptionFocus(i)}
-                    onChange={(e) => handleOptionChange(e, i)}
-                    className="border border-gray-300 rounded h-12 px-4"
-                  />
-                  <button
-                    className="text-gray-300"
-                    type="button"
-                    onClick={() => removeOption(i)}
-                  >
-                    ✕
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="my-6">
-          <button
-            className="bg-blue-600 text-white rounded px-6 h-12"
-            disabled={createMutation.isLoading}
-          >
-            Create Poll
-          </button>
-        </div>
-      </form>
-    </div>
+    <>
+      <Header />
+      <div className="p-6">
+        <Link href="/polls">
+          <a className="text-orange-600 underline">← See all polls</a>
+        </Link>
+        <h1 className="text-2xl font-bold my-6">Create Poll</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="my-6">
+            <label htmlFor="title" className="block">
+              Title
+            </label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              required
+              className="border border-gray-300 rounded h-12 px-4"
+              value={title}
+              onChange={(e) => setTitle(e.currentTarget.value)}
+            />
+          </div>
+          <div className="my-6">
+            <label htmlFor="options" className="block">
+              Options
+            </label>
+            <ul>
+              {options.map((o, i) => (
+                <li key={i} className="mb-2">
+                  <div className="flex gap-4 items-center">
+                    <input
+                      type="text"
+                      name={`option-${i}`}
+                      id={`option-${i}`}
+                      value={o.title}
+                      required={i !== options.length - 1}
+                      onFocus={() => handleOptionFocus(i)}
+                      onChange={(e) => handleOptionChange(e, i)}
+                      className="border border-gray-300 rounded h-12 px-4"
+                    />
+                    <button
+                      className="text-gray-300"
+                      type="button"
+                      onClick={() => removeOption(i)}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="my-6">
+            <button
+              className="bg-orange-600 text-white rounded px-4 h-10"
+              disabled={createMutation.isLoading}
+            >
+              Create Poll
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

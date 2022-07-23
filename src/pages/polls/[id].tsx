@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import React from "react";
 import Link from "next/link";
 
-import { trpc } from "../../utils/trpc";
+import { trpc } from "@/utils/trpc";
+import Header from "@/components/Header";
 
 const Poll: NextPage = () => {
   const router = useRouter();
@@ -38,38 +39,41 @@ const Poll: NextPage = () => {
   );
 
   return (
-    <div className="p-6">
-      <Link href="/polls">
-        <a className="text-blue-600 underline">← See all polls</a>
-      </Link>
-      <h1 className="text-2xl font-bold my-6">{pollQuery.data.title}</h1>
-      <ul className="flex flex-col gap-4">
-        {sortedOptions.map((o) => (
-          <li key={o.id}>
-            <div className="flex gap-4 items-center justify-between bg-white p-4 rounded border border-gray-300">
-              <h3>{o.title}</h3>
-              <div className="flex gap-2 items-center ml-4">
-                <button
-                  onClick={() => upvoteMutation.mutate(o.id)}
-                  disabled={upvoteMutation.isLoading}
-                  className="h-8 w-8 flex items-center justify-center rounded bg-green-50 hover:bg-green-100 disabled:bg-gray-50"
-                >
-                  ↑
-                </button>
-                {o.votes}
-                <button
-                  onClick={() => downvoteMutation.mutate(o.id)}
-                  disabled={downvoteMutation.isLoading}
-                  className="h-8 w-8 flex items-center justify-center rounded bg-red-50 hover:bg-red-100 disabled:bg-gray-50"
-                >
-                  ↓
-                </button>
+    <>
+      <Header />
+      <div className="p-6">
+        <Link href="/polls">
+          <a className="text-orange-600 underline">← See all polls</a>
+        </Link>
+        <h1 className="text-2xl font-bold my-6">{pollQuery.data.title}</h1>
+        <ul className="flex flex-col gap-4">
+          {sortedOptions.map((o) => (
+            <li key={o.id}>
+              <div className="flex gap-4 items-center justify-between p-4 rounded border bg-gray-600 border-gray-500">
+                <h3>{o.title}</h3>
+                <div className="flex gap-2 items-center ml-4">
+                  <button
+                    onClick={() => upvoteMutation.mutate(o.id)}
+                    disabled={upvoteMutation.isLoading}
+                    className="h-8 w-8 flex items-center justify-center rounded bg-green-700/30 hover:bg-green-600 disabled:bg-gray-50"
+                  >
+                    ↑
+                  </button>
+                  <span className="px-2">{o.votes}</span>
+                  <button
+                    onClick={() => downvoteMutation.mutate(o.id)}
+                    disabled={downvoteMutation.isLoading}
+                    className="h-8 w-8 flex items-center justify-center rounded bg-red-700/30 hover:bg-red-600 disabled:bg-gray-50"
+                  >
+                    ↓
+                  </button>
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 
