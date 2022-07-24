@@ -34,9 +34,9 @@ const Poll: NextPage = () => {
       </div>
     );
 
-  const sortedOptions = [...pollQuery.data.options].sort((a, b) =>
-    a.votes > b.votes ? -1 : 1
-  );
+  // const sortedOptions = [...pollQuery.data.options].sort((a, b) =>
+  //   a.votes > b.votes ? -1 : 1
+  // );
 
   return (
     <>
@@ -47,7 +47,7 @@ const Poll: NextPage = () => {
         </Link>
         <h1 className="text-2xl font-bold my-6">{pollQuery.data.title}</h1>
         <ul className="flex flex-col gap-4">
-          {sortedOptions.map((o) => (
+          {pollQuery.data.options.map((o) => (
             <li key={o.id}>
               <div className="flex gap-4 items-center justify-between p-4 rounded border bg-gray-600 border-gray-500">
                 <h3>{o.title}</h3>
@@ -55,7 +55,7 @@ const Poll: NextPage = () => {
                   <button
                     onClick={() => upvoteMutation.mutate(o.id)}
                     disabled={upvoteMutation.isLoading}
-                    className="h-8 w-8 flex items-center justify-center rounded bg-green-700/30 hover:bg-green-600 disabled:bg-gray-50"
+                    className="h-8 w-8 flex items-center justify-center rounded bg-green-700/30 hover:bg-green-600 disabled:bg-gray-700 disabled:text-gray-500"
                   >
                     ↑
                   </button>
@@ -63,7 +63,7 @@ const Poll: NextPage = () => {
                   <button
                     onClick={() => downvoteMutation.mutate(o.id)}
                     disabled={downvoteMutation.isLoading}
-                    className="h-8 w-8 flex items-center justify-center rounded bg-red-700/30 hover:bg-red-600 disabled:bg-gray-50"
+                    className="h-8 w-8 flex items-center justify-center rounded bg-red-700/30 hover:bg-red-600 disabled:bg-gray-700 disabled:text-gray-500"
                   >
                     ↓
                   </button>
