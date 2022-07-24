@@ -73,7 +73,7 @@ const CreatePoll: NextPage = () => {
               name="title"
               id="title"
               required
-              className="border border-gray-300 rounded h-12 px-4"
+              className="border border-gray-300 rounded h-12 px-4 text-black"
               value={title}
               onChange={(e) => setTitle(e.currentTarget.value)}
             />
@@ -94,7 +94,7 @@ const CreatePoll: NextPage = () => {
                       required={i !== options.length - 1}
                       onFocus={() => handleOptionFocus(i)}
                       onChange={(e) => handleOptionChange(e, i)}
-                      className="border border-gray-300 rounded h-12 px-4"
+                      className="border border-gray-300 rounded h-12 px-4 text-black"
                     />
                     <button
                       className="text-gray-300"
