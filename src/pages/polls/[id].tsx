@@ -38,6 +38,9 @@ const Poll: NextPage = () => {
   //   a.votes > b.votes ? -1 : 1
   // );
 
+  const isProcessingVote =
+    upvoteMutation.isLoading || downvoteMutation.isLoading;
+
   return (
     <>
       <Header />
@@ -54,7 +57,7 @@ const Poll: NextPage = () => {
                 <div className="flex gap-2 items-center ml-4">
                   <button
                     onClick={() => upvoteMutation.mutate(o.id)}
-                    disabled={upvoteMutation.isLoading}
+                    disabled={isProcessingVote}
                     className="h-8 w-8 flex items-center justify-center rounded bg-green-700/30 hover:bg-green-600 disabled:bg-gray-700 disabled:text-gray-500"
                   >
                     ↑
@@ -62,7 +65,7 @@ const Poll: NextPage = () => {
                   <span className="px-2">{o.votes}</span>
                   <button
                     onClick={() => downvoteMutation.mutate(o.id)}
-                    disabled={downvoteMutation.isLoading}
+                    disabled={isProcessingVote}
                     className="h-8 w-8 flex items-center justify-center rounded bg-red-700/30 hover:bg-red-600 disabled:bg-gray-700 disabled:text-gray-500"
                   >
                     ↓
